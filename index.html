@@ -18,24 +18,22 @@
         input:focus { border-color: #25d366; box-shadow: 0 0 10px rgba(37, 211, 102, 0.2); }
         button { width: 100%; padding: 16px; background: #25d366; border: none; border-radius: 12px; color: #000000; font-size: 15px; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
         button:hover { background: #20bd5a; }
-        #success-msg { display: none; color: #25d366; font-size: 15px; font-weight: bold; margin-top: 15px; line-height: 1.5; background: rgba(37, 211, 102, 0.1); padding: 15px; border-radius: 12px; border: 1px solid rgba(37, 211, 102, 0.3); }
+        #success-msg { display: none; color: #25d366; font-size: 14px; font-weight: bold; margin-top: 15px; line-height: 1.6; background: rgba(37, 211, 102, 0.1); padding: 20px; border-radius: 12px; border: 1px solid rgba(37, 211, 102, 0.3); }
     </style>
 </head>
 <body>
     <div class="card">
-        <!-- If your image file name is different, change logo.png below to match it exactly -->
         <img src="logo.png" alt="Goody Tech Logo" class="logo" onerror="this.style.display='none'">
         <br>
         <span class="badge">OFFICIAL NETWORK</span>
         <h1>GOODY TECH CONTACT GAIN</h1>
         <p>Submit your details below to join our active contact list and boost your WhatsApp status views instantly!</p>
         
-        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+        <form id="form" method="POST">
+            <!-- Your Web3Forms Access Key -->
             <input type="hidden" name="access_key" value="a60417c5-aab6-4907-a8c9-dde6901afffb">
             <input type="hidden" name="subject" value="New Goody Tech Contact Gain Submission">
-            <!-- This prevents the redirect to web3forms and keeps users on your page -->
-            <input type="checkbox" name="botcheck" style="display: none;">
-
+            
             <div class="form-group">
                 <label>Full Name</label>
                 <input type="text" name="Full Name" placeholder="e.g. John Doe" required>
@@ -50,39 +48,45 @@
         </form>
 
         <div id="success-msg">
-            🎉 Successfully Submitted!<br>Your details have been added to the Goody Tech network.
+            🎉 Successfully Submitted!<br>Your details have been saved securely to the Goody Tech network.
         </div>
     </div>
 
     <script>
-        const form = document.getElementById('contactForm');
+        const form = document.getElementById('form');
         const successMsg = document.getElementById('success-msg');
+        const submitBtn = document.getElementById('submitBtn');
 
-        form.addEventListener('submittable', function(e) {}) // standard baseline
-
-        form.addEventListener('submit', async function(e) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const formData = new FormData(form);
-            const btn = document.getElementById('submitBtn');
-            btn.textContent = "SUBMITTING...";
+            submitBtn.textContent = "SUBMITTING...";
             
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
-                if (data.success) {
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                let jsonResponse = await response.json();
+                if (response.status == 200) {
                     form.style.display = 'none';
                     successMsg.style.display = 'block';
                 } else {
-                    alert("Something went wrong. Please try again.");
-                    btn.textContent = "SUBMIT DETAILS 🚀";
+                    alert(jsonResponse.message);
+                    submitBtn.textContent = "SUBMIT DETAILS 🚀";
                 }
-            } catch (error) {
-                // Fallback standard submit if fetch fails
-                form.submit();
-            }
+            })
+            .catch(error => {
+                alert("Something went wrong! Please try again.");
+                submitBtn.textContent = "SUBMIT DETAILS 🚀";
+            });
         });
     </script>
 </body>
