@@ -25,7 +25,7 @@
 <body>
     <div class="card">
         <div class="logo-container">
-            <img src="https://raw.githubusercontent.com/goodytecheditz/Contact-Gain/main/file_0000000040b081fd9280dc68bb62c1ef.png" alt="Goody Tech Logo" class="logo" fetchpriority="high">
+            <img src="file_0000000040b081fd9280dc68bb62c1ef.png" alt="Goody Tech Logo" class="logo">
         </div>
         <span class="badge">OFFICIAL NETWORK</span>
         <h1>GOODY TECH CONTACT GAIN</h1>
@@ -62,7 +62,6 @@
             e.preventDefault();
             submitBtn.textContent = "SUBMITTING...";
             
-            const formData = new FormData(formData); // safe fallback handle
             const object = Object.fromEntries(new FormData(form));
             const json = JSON.stringify(object);
 
