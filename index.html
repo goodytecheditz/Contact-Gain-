@@ -8,7 +8,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background: #0b0f19; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         .card { background: #161f32; border: 1px solid #23314d; width: 100%; max-width: 420px; padding: 32px 24px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); text-align: center; }
-        .logo { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; border: 2px solid #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); background: #0b0f19; }
+        .logo-container { width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 16px auto; border: 2px solid #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); overflow: hidden; background: #0b0f19; display: flex; align-items: center; justify-content: center; }
+        .logo { width: 100%; height: 100%; object-fit: cover; }
         .badge { background: rgba(37, 211, 102, 0.15); color: #25d366; font-size: 11px; font-weight: bold; padding: 5px 12px; border-radius: 20px; display: inline-block; margin-bottom: 15px; border: 1px solid rgba(37, 211, 102, 0.3); letter-spacing: 0.5px; }
         h1 { font-size: 22px; color: #ffffff; margin-bottom: 8px; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; }
         p { font-size: 13px; color: #94a3b8; margin-bottom: 25px; line-height: 1.5; }
@@ -23,8 +24,9 @@
 </head>
 <body>
     <div class="card">
-        <img src="https://raw.githubusercontent.com/goodytecheditz/Contact-Gain/main/file_0000000040b081fd9280dc68bb62c1ef.png" alt="Goody Tech Logo" class="logo" fetchpriority="high">
-        <br>
+        <div class="logo-container">
+            <img src="https://raw.githubusercontent.com/goodytecheditz/Contact-Gain/main/file_0000000040b081fd9280dc68bb62c1ef.png" alt="Goody Tech Logo" class="logo" fetchpriority="high">
+        </div>
         <span class="badge">OFFICIAL NETWORK</span>
         <h1>GOODY TECH CONTACT GAIN</h1>
         <p>Submit your details below to join our active contact list and boost your WhatsApp status views instantly!</p>
@@ -60,8 +62,8 @@
             e.preventDefault();
             submitBtn.textContent = "SUBMITTING...";
             
-            const formData = new FormData(form);
-            const object = Object.fromEntries(formData);
+            const formData = new FormData(formData); // safe fallback handle
+            const object = Object.fromEntries(new FormData(form));
             const json = JSON.stringify(object);
 
             fetch('https://api.web3forms.com/submit', {
